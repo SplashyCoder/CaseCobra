@@ -18,7 +18,26 @@ const page = () => {
       )}
     >
       <div className="relative flex flex-1  flex-col items-center justify-center w-full">
-        <Dropzone onDropRejected={}></Dropzone>
+        <Dropzone
+          onDropRejected={onDropRejected}
+          onDropAccepted={onDropAcepted}
+          accept={{
+            "image/png": [".png"],
+            "image/jpg": [".jpg"],
+            "image/jpeg": [".jpeg"],
+          }}
+          onDragEnter={() => setIsDragOver(true)}
+          onDragLeave={() => setIsDragOver(false)}
+        >
+          {({ getRootProps, getInputProps }) => (
+            <div
+              className="h-full w-full flex-1 flex flex-col items-center justify-center"
+              {...getRootProps}
+            >
+              <input {...getInputProps()} />
+            </div>
+          )}
+        </Dropzone>
       </div>
     </div>
   );
