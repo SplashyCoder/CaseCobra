@@ -1,17 +1,16 @@
 "use client";
 import { Progress } from "@/components/ui/progress";
+import { Toast } from "@/components/ui/toast";
 import { useToast } from "@/hooks/use-toast";
 import { useUploadThing } from "@/lib/uploadthing";
 import { cn } from "@/lib/utils";
-import { useTransform } from "framer-motion";
-import { div } from "framer-motion/client";
 import {
   Image,
   Loader2,
   MousePointer2Icon,
   MousePointerSquareDashed,
 } from "lucide-react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useState, useTransition } from "react";
 import Dropzone, { FileRejection } from "react-dropzone";
 import { isDataView } from "util/types";
