@@ -1,5 +1,6 @@
 "use client";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/hooks/use-toast";
 import { useUploadThing } from "@/lib/uploadthing";
 import { cn } from "@/lib/utils";
 import { useTransform } from "framer-motion";
@@ -10,24 +11,47 @@ import {
   MousePointer2Icon,
   MousePointerSquareDashed,
 } from "lucide-react";
+import { useRouter } from "next/router";
 import React, { useState, useTransition } from "react";
 import Dropzone, { FileRejection } from "react-dropzone";
 import { isDataView } from "util/types";
 
 const page = () => {
+  const { toast } = useToast();
+
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const router = useRouter();
 
-  const {} = useUploadThing("imageUploader", {
-    onClientUploadComplete: ([data]) => {},
+  const { startUpload, isUploading } = useUploadThing("imageUploader", {
+    onClientUploadComplete: ([data]) => {
+      const configId = data.serverData.configId;
+      startTransition(() => {
+        router.push(`/configure/design?id=${configId}`);
+      });
+    },
+    onUploadProgress(p) {
+      setUploadProgress(p);
+    },
   });
 
-  const onDropAcepted = () => {
-    console.log("acp");
-  };
-  const onDropRejected = () => {};
+  const onDropAcepted = (acceptedFles: File[]) => {
+    startUpload(acceptedFles, { configId: undefined });
 
-  const isUploading = false;
+    setIsDragOver(false);
+  };
+  const onDropRejected = (rejectedFiles: FileRejection[]) => {
+    const [file] = rejectedFiles;
+    setIsDragOver(false);
+
+    toast({
+      title: `${file.file.type} type si not suported.`,
+      description: "Please choose PNG, JPG or JPEG image instead.",
+      variant: "destructive",
+    });
+  };
+
+  // const isUploading = false;
   const [isPending, startTransition] = useTransition();
 
   return (
