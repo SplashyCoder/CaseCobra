@@ -1,5 +1,6 @@
 "use client";
 import { Progress } from "@/components/ui/progress";
+import { Toast } from "@/components/ui/toast";
 import { useToast } from "@/hooks/use-toast";
 import { useUploadThing } from "@/lib/uploadthing";
 import { cn } from "@/lib/utils";
