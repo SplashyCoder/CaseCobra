@@ -4,11 +4,13 @@ import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 const NavBar = async () => {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
   const isAdmin = user?.email === process.env.ADMIN_EMAIL;
+  console.log(user);
 
   return (
     <nav className="sticky z-[100] h-14 inset-x-0 top-0 w-full boder-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all text-black">
@@ -25,7 +27,7 @@ const NavBar = async () => {
             <div className="h-full flex items-center space-x-4">
               {user ? (
                 <>
-                  <Link
+                  {/* <Link
                     href="/api/auth/loguout"
                     className={buttonVariants({
                       size: "sm",
@@ -33,7 +35,17 @@ const NavBar = async () => {
                     })}
                   >
                     Sign out
-                  </Link>
+                  </Link> */}
+                  <LogoutLink
+                    href="/"
+                    className={buttonVariants({
+                      size: "sm",
+                      variant: "ghost",
+                    })}
+                  >
+                    Log out
+                  </LogoutLink>
+
                   {isAdmin ? (
                     <>
                       <Link
